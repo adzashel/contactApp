@@ -8,5 +8,15 @@
     "name": "Jieeae",
     "email": "zheeva_zee@outlook.com",
     "skills": "PHP , laravel"
+  },
+  {
+    "name": "Adzashel Von Moreau",
+    "email": "shelishere@outlook.com",
+    "skills": "dart , flutter"
+  },
+  {
+    "name": "Agatha",
+    "email": "agathavaneesa@outlook.com",
+    "skills": "angular"
   }
 ]

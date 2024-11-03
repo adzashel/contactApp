@@ -1,53 +1,62 @@
-const fs = require('fs');
-const validator = require('validator');
-const readline = require('readline');
+const contacts = require('./script');
+const yargs = require('yargs');
 
-const rl =  readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
+yargs.command({
+    command: 'add',
+    describe: 'Tambahkan data kontak baru',
+    builder: {
+        name: {
+            describe: 'Nama kontak',
+            type: 'string',
+            demandOption: true
+        },
+        email: {
+            describe: 'Email kontak',
+            type: 'string',
+            demandOption: true
+        },
+        skills: {
+            describe: 'Skills kontak',
+            type: 'string',
+            demandOption: true
+        }
+    },
+    handler(argv) {
+        contacts.saveContact(argv.name, argv.email, argv.skills);
+    }
 });
 
-// create directory if it doesn't exist
-const dirPath = './data'
-if (!fs.existsSync(dirPath)) {
-    fs.mkdirSync(dirPath);
-}
+// commad to remove the contact
 
-// create file if it't exists
-const filePath = `${dirPath}/data.json`;
-
-if (!fs.existsSync(filePath)) {
-    fs.writeFileSync(filePath , '[]' , 'utf8');
-}
-
-// write a question 
-const createQuestion = (question) => {
-    return new Promise((resolve, reject) => {
-        rl.question( question , (answer)=> {
-            if (!validator.isEmpty(answer)) {
-                resolve(answer);
-            } else {
-                reject(new Error('Question cannot be empty'));
-            }
-        });
-    })
-}
-
-const container = async() => {
-    try {
-        const name = await createQuestion('Masukan nama anda = ');
-        const email = await createQuestion('Masukan email anda = ');
-        const skills = await createQuestion('Masukan skills anda = ');
-
-        const contact = {name , email , skills};
-        const data = JSON.parse(fs.readFileSync(filePath , 'utf-8'));
-        data.push(contact);
-        fs.writeFileSync(filePath , JSON.stringify(data));
-        console.log('Data berhasil disimpan');
-        rl.close();
-    }catch(e){
-        console.error(e.message);
+yargs.command({
+    command:'remove',
+    describe: 'Delete contact',
+    builder: {
+        name: {
+            describe: 'Name of contact',
+            type:'string',
+            demandOption: true
+        }
+    },
+    handler(argv) {
+        contacts.removeContact(argv.name);
     }
-}
+});
 
-container();
+yargs.parse();
+
+
+
+// const container = async() => {
+//     try {
+//         const name = await contacts.createQuestion('Masukan nama anda = ');
+//         const email = await contacts.createQuestion('Masukan email anda = ');
+//         const skills = await contacts.createQuestion('Masukan skills anda = ');
+
+//         contacts.saveContact( name , email , skills )
+//     }catch(e){
+//         console.error(e.message);
+//     }
+// }
+
+// container();
