@@ -60,7 +60,36 @@ yargs.command({
     }
 });
 
+// Update Exist contact
+
+yargs.command({
+    command: 'update',
+    describe: 'Update contact',
+    builder: {
+        name: {
+            describe: 'Name of contact',
+            type:'string',
+            demandOption: true
+        },
+        email: {
+            describe: 'Email of contact',
+            type:'string',
+            demandOption: false
+        },
+        skills: {
+            describe: 'Skills of contact',
+            type:'string',
+            demandOption: false
+        }
+    },
+    handler(argv) {
+        contacts.updateContact(argv.name, argv.email, argv.skills);
+    }
+});
+
 yargs.parse();
+
+
 
 
 

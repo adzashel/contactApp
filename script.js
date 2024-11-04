@@ -64,7 +64,23 @@ const showDetailContact = (name) => {
     }
 }
 
-module.exports = { saveContact, removeContact, showDetailContact };
+// update exist contact
+
+const updateContact = (name, email, skills) => {
+    const contact = fs.readFileSync(filePath, 'utf-8');
+    const data = JSON.parse(contact);
+    const updatedData = data.map(item => {
+        if(item.name === name) {
+            return {...item, email, skills };
+        }
+        return item;
+    });
+
+    fs.writeFileSync(filePath, JSON.stringify(updatedData));
+    console.log(chalk.bgGreenBright('Data berhasil diupdate'));
+}
+
+module.exports = { updateContact , saveContact, removeContact, showDetailContact };
 
 
 // const readline = require('readline');

@@ -19,5 +19,14 @@
     "email": "agathavaneesa@outlook.com",
     "skills": "angular"
   },
-  { "name": "alexa", "email": "alexa@gmail.com", "skills": "Reactjs" }
+  {
+    "name": "alexa",
+    "email": "alexa@outlook.com",
+    "skills": "Reactjs, Nodejs"
+  },
+  {
+    "name": "Simone De La Flour",
+    "email": "delaflour@gmail.com",
+    "skills": "Kotlin , Flutter , Dart, Typescript"
+  }
 ]
