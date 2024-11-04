@@ -18,5 +18,6 @@
     "name": "Agatha",
     "email": "agathavaneesa@outlook.com",
     "skills": "angular"
-  }
+  },
+  { "name": "alexa", "email": "alexa@gmail.com", "skills": "Reactjs" }
 ]

@@ -40,14 +40,31 @@ const saveContact = (name, email, skills) => {
 
 // removeContact function
 const removeContact = (name) => {
-    const contact = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-    const filteredData = contact.filter(item => item.name !== name);
+    const contact = fs.readFileSync(filePath, 'utf-8');
+    const fileBuffer = JSON.parse(contact);
+    const filteredData = fileBuffer.filter(item => item.name !== name);
     fs.writeFileSync(filePath, JSON.stringify(filteredData));
     console.log(chalk.bgGreenBright('Data berhasil dihapus'));
 }
 
+// show detail contact
+const showDetailContact = (name) => {
+    const contact = fs.readFileSync(filePath, 'utf-8');
+    const data = JSON.parse(contact);
+    const foundContact = data.find(item => item.name === name);
 
-module.exports = { saveContact, removeContact };
+    if(!foundContact) {
+        console.log(chalk.bgRed.white('Data not found'));
+        return;
+    }else {
+        console.log(chalk.bgCyanBright(`Detail contact ${ foundContact.name}`));
+        console.log(`Nama: ${foundContact.name}`);
+        console.log(`Email: ${foundContact.email}`);
+        console.log(`Skills: ${foundContact.skills}`);
+    }
+}
+
+module.exports = { saveContact, removeContact, showDetailContact };
 
 
 // const readline = require('readline');
