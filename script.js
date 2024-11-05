@@ -15,10 +15,16 @@ if (!fs.existsSync(filePath)) {
     fs.writeFileSync(filePath, '[]', 'utf8');
 }
 
+const readFile = () => {
+    const contact = fs.readFileSync(filePath, 'utf-8');
+    const data = JSON.parse(contact);
+
+    return data;
+}
+
 const saveContact = (name, email, skills) => {
     const contact = { name, email, skills };
-    const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-
+    const data = readFile();
     // check duplicates name
     const isDuplicate = data.find(item => item.name === name);
     if (isDuplicate) {
@@ -27,37 +33,35 @@ const saveContact = (name, email, skills) => {
     }
 
     // validate email
-    if (!validator.isEmail(email)) {
+    if (!validator.isEmail) {
         console.error(chalk.bgRed('Invalid email'));
         return;
+    } else {
+        data.push(contact);
+        fs.writeFileSync(filePath, JSON.stringify(data));
+        console.log(chalk.bgGreenBright('Data has  been saved to: ' + filePath))
     }
-
-    data.push(contact);
-    fs.writeFileSync(filePath, JSON.stringify(data));
-    console.log(chalk.bgGreenBright('Data berhasil disimpan'));
     // rl.close();
 }
 
 // removeContact function
 const removeContact = (name) => {
-    const contact = fs.readFileSync(filePath, 'utf-8');
-    const fileBuffer = JSON.parse(contact);
+    const fileBuffer = readFile();
     const filteredData = fileBuffer.filter(item => item.name !== name);
     fs.writeFileSync(filePath, JSON.stringify(filteredData));
-    console.log(chalk.bgGreenBright('Data berhasil dihapus'));
+    console.log(chalk.bgGreenBright('Data has been deleted from ' + filePath));
 }
 
 // show detail contact
 const showDetailContact = (name) => {
-    const contact = fs.readFileSync(filePath, 'utf-8');
-    const data = JSON.parse(contact);
+    const data = readFile();
     const foundContact = data.find(item => item.name === name);
 
-    if(!foundContact) {
+    if (!foundContact) {
         console.log(chalk.bgRed.white('Data not found'));
         return;
-    }else {
-        console.log(chalk.bgCyanBright(`Detail contact ${ foundContact.name}`));
+    } else {
+        console.log(chalk.bgCyanBright(`Detail contact ${foundContact.name}`));
         console.log(`Nama: ${foundContact.name}`);
         console.log(`Email: ${foundContact.email}`);
         console.log(`Skills: ${foundContact.skills}`);
@@ -67,20 +71,38 @@ const showDetailContact = (name) => {
 // update exist contact
 
 const updateContact = (name, email, skills) => {
-    const contact = fs.readFileSync(filePath, 'utf-8');
-    const data = JSON.parse(contact);
+    const data = readFile();
     const updatedData = data.map(item => {
-        if(item.name === name) {
-            return {...item, email, skills };
+        if (item.name === name) {
+            return { ...item, email, skills };
         }
         return item;
     });
 
     fs.writeFileSync(filePath, JSON.stringify(updatedData));
-    console.log(chalk.bgGreenBright('Data berhasil diupdate'));
+    console.log(chalk.bgGreenBright('Data has been updated'));
 }
 
-module.exports = { updateContact , saveContact, removeContact, showDetailContact };
+// show list of contacts
+const showListContact = () => {
+    const data = readFile();
+    if (data.length === 0) {
+        console.log(chalk.bgRed.white('No contact found'));
+        return;
+    } else {
+        data.forEach((item, index) => {
+            console.table(`${index + 1}. ${item.name} = ${item.email}`);
+        });
+    };
+}
+
+module.exports = {
+    showListContact, 
+    updateContact, 
+    saveContact, 
+    removeContact, 
+    showDetailContact 
+};
 
 
 // const readline = require('readline');

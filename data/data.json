@@ -20,13 +20,14 @@
     "skills": "angular"
   },
   {
-    "name": "alexa",
-    "email": "alexa@outlook.com",
-    "skills": "Reactjs, Nodejs"
-  },
-  {
     "name": "Simone De La Flour",
     "email": "delaflour@gmail.com",
     "skills": "Kotlin , Flutter , Dart, Typescript"
+  },
+  { "name": "Alexa", "email": "alexa_dev@outlook.com", "skills": "python" },
+  {
+    "name": "Florence Clemence",
+    "email": "flo_clemencedev@outlook.com",
+    "skills": "python"
   }
 ]
